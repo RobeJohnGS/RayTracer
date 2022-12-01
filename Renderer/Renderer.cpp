@@ -33,3 +33,13 @@ bool Renderer::CreateWindow(int width, int height)
 	}
 	return true;
 }
+
+void Renderer::CopyCanvas(const Canvas& canvas)
+{
+	SDL_RenderCopy(m_renderer, canvas.m_texture, nullptr, nullptr);
+}
+
+void Renderer::Present()
+{
+	SDL_RenderPresent(m_renderer);
+}
