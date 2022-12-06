@@ -2,8 +2,10 @@
 #include "MathUtils.h"
 
 using rgba_t = uint32_t;
+using color3 = glm::vec3;
+using color4 = glm::vec4;
 
-inline glm::vec4 RGBAToColor(const rgba_t& rgba)
+inline color4 RGBAToColor(const rgba_t& rgba)
 {
     glm::vec4 color;
 
@@ -15,7 +17,7 @@ inline glm::vec4 RGBAToColor(const rgba_t& rgba)
     return color;
 }
 
-inline rgba_t ColorToRGBA(const glm::vec4& color)
+inline rgba_t ColorToRGBA(const color4& color)
 {
     rgba_t rgba = 0;
 
