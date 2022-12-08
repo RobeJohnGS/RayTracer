@@ -1,8 +1,9 @@
 #include "Renderer.h"
 #include "Canvas.h"
+#include "../Object/Object.h"
 
 #include <iostream>
-void Renderer::Render(Canvas& canvas){
+void Renderer::Render(Canvas& canvas, Object* object){
 	glm::vec3 lowerLeft{ -2, -1, -1 };
 	glm::vec3 eye{ 0, 0, 0 };
 	glm::vec3 right{ 4, 0, 0 };
@@ -13,9 +14,19 @@ void Renderer::Render(Canvas& canvas){
 			float u = x / (float)canvas.GetWidth();
 			float v = 1 - (y / (float)canvas.GetHeight());
 			glm::vec3 direction = lowerLeft + (u * right) + (v * up);
-			JREngine::Ray ray{ eye, direction };
+			Ray ray{ eye, direction };
 
-			color3 color = GetBackgroundFromRay(ray);
+			RaycastHit raycastHit;
+			color3 color;
+			if (object->Hit(ray, 0.01f, 100.0f, raycastHit))
+			{
+				color = { 1, 0, 0 };
+			}
+			else
+			{
+				// get gradient background color from ray 
+				color = GetBackgroundFromRay(ray);
+			}
 			canvas.DrawPoint({ x, y }, color4(color, 1));
 		}
 	}
@@ -65,10 +76,10 @@ void Renderer::Present()
 	SDL_RenderPresent(m_renderer);
 }
 
-color3 Renderer::GetBackgroundFromRay(const JREngine::Ray& ray)
+color3 Renderer::GetBackgroundFromRay(const Ray& ray)
 {
 	glm::vec3 direction = glm::normalize(ray.direction);
 	float t = 0.5f * (direction.y + 1.0f);
 
-	return interp(color3{ 1.0f }, color3{ 0.5f, 0.7f, 1.0f }, t);
+	return Lerp(color3{ 1.0f }, color3{ 0.5f, 0.7f, 1.0f }, t);
 }
