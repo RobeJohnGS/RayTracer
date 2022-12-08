@@ -1,14 +1,12 @@
 #pragma once
+#include "../Math/MathUtils.h"
 #include "Object.h"
 
-class Sphere : public Object {
+class Sphere : public Object
+{
 public:
 	Sphere() = default;
-	Sphere(const glm::vec3& center, float radius, std::unique_ptr<Material> material) :
-		Object{ std::move(material)},
-		m_center{ center },
-		m_radius{ radius }
-	{}
+	Sphere(const glm::vec3& center, float radius, std::unique_ptr<Material> material) : Object{ std::move(material) }, m_center{ center }, m_radius{ radius } {}
 
 	bool Hit(const Ray& r, float min, float max, RaycastHit& hit) override;
 

@@ -9,7 +9,7 @@ class Object
 {
 public:
 	Object() = default;
-	Object(std::unique_ptr<Material> material) : m_material{ std::move(material) } {}
+	Object(std::unique_ptr<Material> material) : m_material(std::move(material)) {}
 
 	virtual bool Hit(const Ray& ray, float min, float max, RaycastHit& hit) = 0;
 

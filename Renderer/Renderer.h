@@ -1,23 +1,25 @@
 #pragma once
 #include "Canvas.h"
 #include "../Math/Ray.h"
-#include "../Math/Color.h"
-#include <SDL.h>
+#include<SDL.h>
 
 class Object;
 class Scene;
+class Camera;
 
 class Renderer
 {
 public:
 	Renderer() = default;
-	void Render(Canvas& canvas, Object* object);
 	bool Initialize();
 	void Shutdown();
 	bool CreateWindow(int width, int height);
 
+	void Render(Canvas& canvas, Scene& scene, Camera& camera, int samples = 5);
+
 	void CopyCanvas(const Canvas& canvas);
 	void Present();
+
 
 	friend class Canvas;
 
